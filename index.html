@@ -10,63 +10,57 @@
 <title>Claude Usage</title>
 <style>
   :root{
-    --bg:#141414; --card:#1f1f1f; --card2:#262626;
-    --txt:#ededed; --muted:#9a9a9a; --faint:#6e6e6e;
-    --line:#2e2e2e; --track:#ffffff14;
-    --blue:#2f81f7; --green:#2ea043; --amber:#e3a008; --red:#f04438;
-    --r:16px;
+    --bg:#141414;--card:#1f1f1f;--card2:#262626;--txt:#ededed;--muted:#9a9a9a;--faint:#6e6e6e;
+    --line:#2e2e2e;--track:#ffffff14;--blue:#2f81f7;--green:#2ea043;--amber:#e3a008;--red:#f04438;--coral:#d97757;--r:16px;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{background:var(--bg);color:var(--txt);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue","Sukhumvit Set","Noto Sans Thai",sans-serif;
-    -webkit-font-smoothing:antialiased}
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif;-webkit-font-smoothing:antialiased}
   body{max-width:480px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
-  .top{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 18px}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 14px}
   .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:30px;height:30px;border-radius:8px;background:#d97757;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px}
-  .brand h1{font-size:18px;font-weight:600;letter-spacing:.2px}
-  .brand p{font-size:11px;color:var(--faint);margin-top:1px}
-  .refresh{width:38px;height:38px;border-radius:50%;background:var(--card);border:1px solid var(--line);
-    color:var(--muted);font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .logo{width:30px;height:30px;border-radius:8px;background:var(--coral);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px}
+  .brand h1{font-size:18px;font-weight:600}
+  .live{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-top:2px}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .live.stale .dot{background:var(--faint)}
+  .live.off .dot{background:var(--red)}
+  .refresh{width:38px;height:38px;border-radius:50%;background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer}
   .refresh:active{transform:scale(.92)}
+  .refresh.spin{animation:sp 1s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;margin-bottom:14px}
-  .c-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
-  .c-name{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600}
-  .c-ico{width:30px;height:30px;border-radius:9px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:16px}
-  .c-edit{background:none;border:none;color:var(--faint);font-size:18px;padding:4px;cursor:pointer;line-height:1}
-  .c-edit:active{color:var(--txt)}
+  .banner{background:#3a2a12;border:1px solid #5a3f15;color:#f0c886;border-radius:12px;padding:11px 14px;font-size:12.5px;line-height:1.5;margin-bottom:13px;display:none}
+  .banner.show{display:block}
 
-  .big{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
-  .big .pct{font-size:34px;font-weight:700;line-height:1}
-  .big .of{font-size:13px;color:var(--muted)}
-  .sub{font-size:12.5px;color:var(--muted);margin-bottom:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:13px}
+  .c-name{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:12px}
+  .c-ico{width:26px;height:26px;border-radius:8px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:14px;color:#bdbdbd}
+  .big{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
+  .big .v{font-size:32px;font-weight:700;line-height:1}
+  .big .u{font-size:13px;color:var(--muted)}
+  .sub{font-size:12.5px;color:var(--muted)}
   .sub b{color:var(--txt);font-weight:600}
+  .bar{height:9px;background:var(--track);border-radius:7px;overflow:hidden;margin-top:11px}
+  .fill{height:100%;border-radius:7px;transition:width .5s ease;background:var(--blue)}
 
-  .bar{height:10px;background:var(--track);border-radius:8px;overflow:hidden}
-  .fill{height:100%;border-radius:8px;transition:width .5s ease}
-  .meta{display:flex;align-items:center;justify-content:space-between;margin-top:11px;font-size:12px}
-  .reset{color:var(--muted);display:flex;align-items:center;gap:6px}
-  .reset .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-  .countdown{font-variant-numeric:tabular-nums;color:var(--txt);font-weight:600}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px}
+  .row .card{margin-bottom:0}
+  .mini .big .v{font-size:25px}
 
-  .edit{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:none}
-  .edit.open{display:block}
-  .field{margin-bottom:12px}
-  .field label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
-  .field input,.field select{width:100%;height:46px;background:var(--card2);border:1px solid var(--line);
-    border-radius:11px;color:var(--txt);font-size:16px;padding:0 14px;font-family:inherit}
-  .field input:focus,.field select:focus{outline:none;border-color:var(--blue)}
-  .erow{display:flex;gap:10px}
-  .erow .field{flex:1}
-  .ebtns{display:flex;gap:10px;margin-top:4px}
-  .ebtns button{flex:1;height:46px;border-radius:11px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid var(--line)}
-  .b-save{background:var(--blue);color:#fff;border-color:var(--blue)}
-  .b-cancel{background:transparent;color:var(--muted)}
-  .b-save:active,.b-cancel:active{transform:scale(.98)}
+  .budget{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted)}
+  .budget input{width:70px;height:34px;background:var(--card2);border:1px solid var(--line);border-radius:9px;color:var(--txt);font-size:14px;text-align:center;font-family:inherit}
+  .budget input:focus{outline:none;border-color:var(--blue)}
 
-  .foot{text-align:center;color:var(--faint);font-size:11px;line-height:1.7;margin-top:6px;padding:0 8px}
-  .updated{text-align:center;color:var(--faint);font-size:11.5px;margin:2px 0 16px}
+  .mrow{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+  .mrow:last-child{margin-bottom:0}
+  .mdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .mname{font-size:12.5px;width:115px;flex-shrink:0;color:var(--txt)}
+  .mbarw{flex:1;height:8px;background:var(--track);border-radius:6px;overflow:hidden}
+  .mbar{height:100%;border-radius:6px}
+  .mval{font-size:11.5px;color:var(--muted);width:96px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+
+  .foot{text-align:center;color:var(--faint);font-size:11px;line-height:1.7;margin-top:8px;padding:0 6px}
 </style>
 </head>
 <body>
@@ -76,191 +70,133 @@
     <div class="logo">✳</div>
     <div>
       <h1>Claude Usage</h1>
-      <p id="now"></p>
+      <div class="live" id="live"><span class="dot"></span><span id="liveTxt">กำลังเชื่อมต่อ…</span></div>
     </div>
   </div>
   <button class="refresh" id="refresh" aria-label="รีเฟรช">↻</button>
 </div>
 
-<div class="updated" id="updated"></div>
+<div class="banner" id="banner"></div>
 
-<div id="cards"></div>
+<div class="card">
+  <div class="c-name"><span class="c-ico">❑</span>Context window (session ล่าสุด)</div>
+  <div class="big"><span class="v" id="ctxV">—</span><span class="u" id="ctxU">/ 1.0M</span></div>
+  <div class="sub" id="ctxS">—</div>
+  <div class="bar"><div class="fill" id="ctxBar" style="width:0%"></div></div>
+</div>
+
+<div class="row">
+  <div class="card mini">
+    <div class="c-name"><span class="c-ico">◷</span>5 ชม.ล่าสุด</div>
+    <div class="big"><span class="v" id="h5V">—</span><span class="u">tokens</span></div>
+    <div class="sub" id="h5S">—</div>
+  </div>
+  <div class="card mini">
+    <div class="c-name"><span class="c-ico">☀</span>วันนี้</div>
+    <div class="big"><span class="v" id="tdV">—</span><span class="u">tokens</span></div>
+    <div class="sub" id="tdS">—</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="c-name"><span class="c-ico">▦</span>สัปดาห์นี้ (ตั้งแต่จันทร์)</div>
+  <div class="big"><span class="v" id="wkV">—</span><span class="u">tokens</span></div>
+  <div class="sub" id="wkS">—</div>
+  <div class="bar"><div class="fill" id="wkBar" style="width:0%"></div></div>
+  <div class="budget">งบ/สัปดาห์ <input type="number" id="wkBudget" inputmode="decimal" step="1" min="1"> ล้าน tokens · <span id="wkLeft"></span></div>
+</div>
+
+<div class="card">
+  <div class="c-name"><span class="c-ico">⬢</span>แยกตาม model (สัปดาห์นี้)</div>
+  <div id="models"><div class="sub">—</div></div>
+</div>
 
 <p class="foot">
-  แตะไอคอนดินสอเพื่ออัปเดตตัวเลขจากแอป Claude · ค่าจะถูกจำไว้ในเครื่อง<br>
-  เวลานับถอยหลังถึง reset คำนวณอัตโนมัติ และจะรีเซ็ต % ให้เองเมื่อถึงเวลา
+  ข้อมูลจริงจาก Claude Code ในคอมพิวเตอร์ · อัปเดตอัตโนมัติทุก ~90 วิ<br>
+  ค่า $ = มูลค่าเทียบเท่า API (แพลน subscription ไม่ได้คิดเงินต่อ token)
 </p>
 
 <script>
-const KEY='claudeUsageV1';
-const DEFAULT={
-  context:{ usedK:83 },
-  fiveHour:{ pct:30, time:'20:40', next:null },
-  weekly:{ pct:63, day:1, time:'22:00', next:null }
+const GIST="a13ebe186709f912205a4853a01559bf";
+const API="https://api.github.com/gists/"+GIST;
+const MCOL={"claude-opus-4-8":"#d97757","claude-opus-4-7":"#b5654a","claude-sonnet-4-6":"#2f81f7","claude-haiku-4-5":"#2ea043","claude-fable-5":"#a855f7"};
+let timer=null;
+
+function fmtTok(n){n=n||0;if(n>=1e6)return (n/1e6).toFixed(2)+"M";if(n>=1e3)return (n/1e3).toFixed(1)+"k";return ""+n;}
+function fmtUsd(n){return "$"+(n||0).toFixed(2);}
+function ago(ms){const s=Math.floor((Date.now()-ms)/1000);if(s<60)return s+" วิที่แล้ว";if(s<3600)return Math.floor(s/60)+" นาทีที่แล้ว";return Math.floor(s/3600)+" ชม.ที่แล้ว";}
+function budget(){const v=parseFloat(localStorage.getItem("wkBudgetM"));return (v&&v>0)?v:50;}
+
+function render(c){
+  const age=Date.now()-c.updated_ms;
+  const live=document.getElementById("live"),txt=document.getElementById("liveTxt"),ban=document.getElementById("banner");
+  live.className="live"+(age>15*60000?" off":age>5*60000?" stale":"");
+  txt.textContent="อัปเดต "+ago(c.updated_ms);
+  if(age>5*60000){ban.className="banner show";ban.innerHTML="⚠ ข้อมูลค้าง "+ago(c.updated_ms)+" — collector อาจไม่ได้รันบนคอม (เปิด run.bat ค้างไว้)";}
+  else ban.className="banner";
+
+  if(c.context){
+    const t=c.context.tokens,p=Math.min(100,t/c.context.max*100);
+    document.getElementById("ctxV").textContent=fmtTok(t);
+    document.getElementById("ctxS").innerHTML="ใช้ <b>"+p.toFixed(1)+"%</b> ของ 1M · "+(c.context.model||"");
+    const bar=document.getElementById("ctxBar");bar.style.width=p+"%";
+    bar.style.background=p>=90?"var(--red)":p>=70?"var(--amber)":"var(--blue)";
+  }
+  const h5=c.windows.last5h,td=c.windows.today,wk=c.windows.week;
+  document.getElementById("h5V").textContent=fmtTok(h5.tokens);
+  document.getElementById("h5S").innerHTML="<b>"+fmtUsd(h5.cost)+"</b> · "+h5.turns+" เทิร์น";
+  document.getElementById("tdV").textContent=fmtTok(td.tokens);
+  document.getElementById("tdS").innerHTML="<b>"+fmtUsd(td.cost)+"</b> · "+td.sessions+" session";
+  document.getElementById("wkV").textContent=fmtTok(wk.tokens);
+  document.getElementById("wkS").innerHTML="<b>"+fmtUsd(wk.cost)+"</b> · "+wk.turns+" เทิร์น · "+wk.sessions+" session";
+  const budM=budget(),budTok=budM*1e6,p=Math.min(100,wk.tokens/budTok*100),leftTok=budTok-wk.tokens;
+  const wb=document.getElementById("wkBar");wb.style.width=p+"%";
+  wb.style.background=p>=90?"var(--red)":p>=75?"var(--amber)":"var(--blue)";
+  document.getElementById("wkLeft").innerHTML=leftTok>0?("เหลือ <b style='color:var(--txt)'>"+fmtTok(leftTok)+"</b> ("+(100-p).toFixed(0)+"%)"):("<b style='color:var(--red)'>เกินงบแล้ว</b>");
+  const bi=document.getElementById("wkBudget");if(document.activeElement!==bi)bi.value=budM;
+  const ms=wk.models.filter(m=>m.tokens>0);
+  const mx=Math.max(1,...ms.map(m=>m.cost));
+  document.getElementById("models").innerHTML=ms.length?ms.map(m=>{
+    const col=MCOL[m.model]||"#888";
+    const nm=m.model.replace("claude-","").replace("-"," ");
+    return '<div class="mrow"><span class="mdot" style="background:'+col+'"></span>'+
+      '<span class="mname">'+nm+'</span>'+
+      '<span class="mbarw"><span class="mbar" style="width:'+(m.cost/mx*100)+'%;background:'+col+'"></span></span>'+
+      '<span class="mval">'+fmtTok(m.tokens)+" · "+fmtUsd(m.cost)+'</span></div>';
+  }).join(""):'<div class="sub">ยังไม่มีการใช้งานสัปดาห์นี้</div>';
+
+  try{localStorage.setItem("lastData",JSON.stringify(c));}catch(e){}
+}
+
+function load(spin){
+  const r=document.getElementById("refresh");
+  if(spin)r.classList.add("spin");
+  fetch(API,{cache:"no-store"}).then(res=>{
+    if(res.status===403)throw new Error("rate");
+    if(!res.ok)throw new Error(res.status);
+    return res.json();
+  }).then(j=>{
+    const c=JSON.parse(j.files["data.json"].content);
+    render(c);
+  }).catch(err=>{
+    const cached=localStorage.getItem("lastData");
+    if(cached){try{render(JSON.parse(cached));}catch(e){}}
+    const live=document.getElementById("live"),txt=document.getElementById("liveTxt");
+    live.className="live off";
+    txt.textContent=err.message==="rate"?"ดึงบ่อยไป รอสักครู่":"ออฟไลน์ — โชว์ค่าล่าสุด";
+  }).finally(()=>{setTimeout(()=>r.classList.remove("spin"),500);});
+}
+
+document.getElementById("refresh").onclick=()=>load(true);
+document.getElementById("wkBudget").onchange=function(){
+  const v=parseFloat(this.value);if(v>0){localStorage.setItem("wkBudgetM",v);}
+  const cached=localStorage.getItem("lastData");if(cached)render(JSON.parse(cached));
 };
-let S=load();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)load(true);});
 
-function load(){
-  try{ const r=JSON.parse(localStorage.getItem(KEY)); if(r) return Object.assign({},DEFAULT,r,{updated:r.updated}); }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT));
-}
-function save(){ S.updated=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); }
-
-function next5h(time){
-  const [h,m]=time.split(':').map(Number);
-  const now=new Date(), t=new Date(); t.setHours(h,m,0,0);
-  if(t<=now) t.setDate(t.getDate()+1);
-  return t.getTime();
-}
-function nextWeekly(day,time){
-  const [h,m]=time.split(':').map(Number);
-  const now=new Date(), t=new Date(); t.setHours(h,m,0,0);
-  let diff=(day - t.getDay()+7)%7; t.setDate(t.getDate()+diff);
-  if(t<=now) t.setDate(t.getDate()+7);
-  return t.getTime();
-}
-function ensureResets(){
-  const now=Date.now();
-  if(!S.fiveHour.next || now>=S.fiveHour.next){
-    if(S.fiveHour.next && now>=S.fiveHour.next) S.fiveHour.pct=0;
-    S.fiveHour.next=next5h(S.fiveHour.time);
-  }
-  if(!S.weekly.next || now>=S.weekly.next){
-    if(S.weekly.next && now>=S.weekly.next) S.weekly.pct=0;
-    S.weekly.next=nextWeekly(S.weekly.day,S.weekly.time);
-  }
-}
-function fmtLeft(ms){
-  if(ms<0)ms=0;
-  const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600),
-        m=Math.floor(s%3600/60), sec=s%60;
-  if(d>0) return d+' วัน '+h+' ชม.';
-  if(h>0) return h+' ชม. '+m+' นาที';
-  if(m>0) return m+' นาที '+sec+' วิ';
-  return sec+' วิ';
-}
-function colorFor(p){ return p>=90?'var(--red)':p>=75?'var(--amber)':'var(--blue)'; }
-const DAYS=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
-
-function render(){
-  ensureResets();
-  const ctxPct=Math.round(S.context.usedK/10);
-  const ctxLeft=(1000-S.context.usedK);
-  const ctxLeftTxt=ctxLeft>=1000?'1.0M':(Math.round(ctxLeft)+'k');
-  const usedTxt=S.context.usedK>=1000?'1.0M':(S.context.usedK.toFixed(S.context.usedK%1?1:0)+'k');
-
-  const cards=[
-    {id:'context',ico:'❑',name:'Context window',pct:ctxPct,
-      big:usedTxt,of:'/ 1.0M',
-      sub:'เหลือ <b>'+ctxLeftTxt+'</b> ('+(100-ctxPct)+'%)',
-      reset:null},
-    {id:'fiveHour',ico:'◷',name:'5-hour limit',pct:S.fiveHour.pct,
-      big:S.fiveHour.pct+'%',of:'ใช้ไป',
-      sub:'เหลือ <b>'+(100-S.fiveHour.pct)+'%</b> ก่อนถึงลิมิต',
-      reset:'5h'},
-    {id:'weekly',ico:'▦',name:'Weekly · all models',pct:S.weekly.pct,
-      big:S.weekly.pct+'%',of:'ใช้ไป',
-      sub:'เหลือ <b>'+(100-S.weekly.pct)+'%</b> ก่อนถึงลิมิต',
-      reset:'wk'}
-  ];
-
-  document.getElementById('cards').innerHTML=cards.map(c=>{
-    const col=colorFor(c.pct);
-    let meta='';
-    if(c.reset==='5h'){
-      meta='<div class="meta"><span class="reset"><span class="dot"></span>Resets '+to12(S.fiveHour.time)+'</span>'+
-        '<span class="countdown" data-cd="fiveHour">—</span></div>';
-    }else if(c.reset==='wk'){
-      meta='<div class="meta"><span class="reset"><span class="dot"></span>Resets '+DAYS[S.weekly.day]+' '+to12(S.weekly.time)+'</span>'+
-        '<span class="countdown" data-cd="weekly">—</span></div>';
-    }
-    return '<div class="card" data-card="'+c.id+'">'+
-      '<div class="c-head"><div class="c-name"><span class="c-ico">'+c.ico+'</span>'+c.name+'</div>'+
-        '<button class="c-edit" data-edit="'+c.id+'" aria-label="แก้ไข">✎</button></div>'+
-      '<div class="big"><span class="pct">'+c.big+'</span><span class="of">'+c.of+'</span></div>'+
-      '<div class="sub">'+c.sub+'</div>'+
-      '<div class="bar"><div class="fill" style="width:'+Math.min(c.pct,100)+'%;background:'+col+'"></div></div>'+
-      meta+
-      '<div class="edit" data-form="'+c.id+'">'+formHTML(c.id)+'</div>'+
-    '</div>';
-  }).join('');
-
-  bind();
-  tick();
-  const u=S.updated?('อัปเดตล่าสุด '+new Date(S.updated).toLocaleString('th-TH',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})):'ยังไม่เคยอัปเดต — แตะดินสอเพื่อกรอกค่า';
-  document.getElementById('updated').textContent=u;
-}
-
-function to12(t){
-  let [h,m]=t.split(':').map(Number);
-  const ap=h>=12?'PM':'AM'; h=h%12||12;
-  return h+':'+String(m).padStart(2,'0')+' '+ap;
-}
-
-function formHTML(id){
-  if(id==='context'){
-    return '<div class="field"><label>Context ใช้ไป (k tokens) — เช่น 83</label>'+
-      '<input type="number" inputmode="decimal" step="0.1" min="0" max="1000" id="f-ctx" value="'+S.context.usedK+'"></div>'+
-      btns(id);
-  }
-  if(id==='fiveHour'){
-    return '<div class="erow"><div class="field"><label>ใช้ไป %</label>'+
-      '<input type="number" inputmode="numeric" min="0" max="100" id="f-5p" value="'+S.fiveHour.pct+'"></div>'+
-      '<div class="field"><label>เวลา reset</label><input type="time" id="f-5t" value="'+S.fiveHour.time+'"></div></div>'+
-      btns(id);
-  }
-  return '<div class="erow"><div class="field"><label>ใช้ไป %</label>'+
-    '<input type="number" inputmode="numeric" min="0" max="100" id="f-wp" value="'+S.weekly.pct+'"></div>'+
-    '<div class="field"><label>เวลา reset</label><input type="time" id="f-wt" value="'+S.weekly.time+'"></div></div>'+
-    '<div class="field"><label>วัน reset</label><select id="f-wd">'+
-      DAYS.map((d,i)=>'<option value="'+i+'"'+(i===S.weekly.day?' selected':'')+'>'+d+'</option>').join('')+
-    '</select></div>'+btns(id);
-}
-function btns(id){
-  return '<div class="ebtns"><button class="b-cancel" data-cancel="'+id+'">ยกเลิก</button>'+
-    '<button class="b-save" data-save="'+id+'">บันทึก</button></div>';
-}
-
-function bind(){
-  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{
-    const id=b.dataset.edit, f=document.querySelector('[data-form="'+id+'"]');
-    document.querySelectorAll('.edit').forEach(e=>{if(e!==f)e.classList.remove('open')});
-    f.classList.toggle('open');
-  });
-  document.querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>render());
-  document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{
-    const id=b.dataset.save;
-    if(id==='context'){
-      S.context.usedK=clamp(parseFloat(document.getElementById('f-ctx').value)||0,0,1000);
-    }else if(id==='fiveHour'){
-      S.fiveHour.pct=clamp(parseInt(document.getElementById('f-5p').value)||0,0,100);
-      S.fiveHour.time=document.getElementById('f-5t').value||'20:40';
-      S.fiveHour.next=next5h(S.fiveHour.time);
-    }else{
-      S.weekly.pct=clamp(parseInt(document.getElementById('f-wp').value)||0,0,100);
-      S.weekly.time=document.getElementById('f-wt').value||'22:00';
-      S.weekly.day=parseInt(document.getElementById('f-wd').value);
-      S.weekly.next=nextWeekly(S.weekly.day,S.weekly.time);
-    }
-    save(); render();
-  });
-}
-function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-
-function tick(){
-  const now=Date.now();
-  let reset=false;
-  if(now>=S.fiveHour.next){S.fiveHour.pct=0;S.fiveHour.next=next5h(S.fiveHour.time);reset=true;}
-  if(now>=S.weekly.next){S.weekly.pct=0;S.weekly.next=nextWeekly(S.weekly.day,S.weekly.time);reset=true;}
-  if(reset){save();render();return;}
-  const e5=document.querySelector('[data-cd="fiveHour"]'); if(e5)e5.textContent='ใน '+fmtLeft(S.fiveHour.next-now);
-  const ew=document.querySelector('[data-cd="weekly"]'); if(ew)ew.textContent='ใน '+fmtLeft(S.weekly.next-now);
-  document.getElementById('now').textContent=new Date().toLocaleString('th-TH',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-}
-
-document.getElementById('refresh').onclick=()=>{ render(); };
-render();
-setInterval(tick,1000);
+const boot=localStorage.getItem("lastData");if(boot){try{render(JSON.parse(boot));}catch(e){}}
+load(true);
+timer=setInterval(()=>load(false),90000);
 </script>
 </body>
 </html>
