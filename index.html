@@ -129,8 +129,8 @@ function fmtTok(n){n=n||0;if(n>=1e6)return (n/1e6).toFixed(2)+"M";if(n>=1e3)retu
 function fmtUsd(n){return "$"+(n||0).toFixed(2);}
 function ago(ms){const s=Math.floor((Date.now()-ms)/1000);if(s<60)return s+" วิที่แล้ว";if(s<3600)return Math.floor(s/60)+" นาทีที่แล้ว";return Math.floor(s/3600)+" ชม.ที่แล้ว";}
 function to12(iso){const d=new Date(iso);let h=d.getHours();const m=d.getMinutes();const ap=h>=12?"PM":"AM";h=h%12||12;return h+":"+String(m).padStart(2,"0")+" "+ap;}
-function b5(){const v=parseFloat(localStorage.getItem("b5M"));return (v&&v>0)?v:10;}
-function bW(){const v=parseFloat(localStorage.getItem("bWM"));return (v&&v>0)?v:50;}
+function b5(){const v=parseFloat(localStorage.getItem("b5M"));return (v&&v>0)?v:50;}
+function bW(){const v=parseFloat(localStorage.getItem("bWM"));return (v&&v>0)?v:300;}
 function cls(p){return p>=90?"pfill red":p>=75?"pfill amber":"pfill";}
 
 function render(c){
